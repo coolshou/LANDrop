@@ -45,7 +45,23 @@ RESOURCES += \
     locales.qrc
 
 TRANSLATIONS += \
-    locales/LANDrop.zh_CN.ts
+    locales/LANDrop.zh_CN.ts \
+    locales/LANDrop.zh_TW.ts
+
+TRANSLATIONS_FILES =
+
+qtPrepareTool(LRELEASE, lrelease)
+for(tsfile, TRANSLATIONS) {
+ qmfile = $$shadowed($$tsfile)
+ qmfile ~= s,.ts$,.qm,
+ qmdir = $$dirname(qmfile)
+ !exists($$qmdir) {
+ mkpath($$qmdir)|error("Aborting.")
+ }
+ command = $$LRELEASE -removeidentical $$tsfile -qm $$qmfile
+ system($$command)|error("Failed to run: $$command")
+ TRANSLATIONS_FILES += $$qmfile
+}
 
 RC_ICONS = icons/app.ico
 ICON = icons/app.icns
@@ -67,7 +83,7 @@ unix {
     icon.path = $$PREFIX/share/icons/hicolor/scalable/apps
     icon.files = $$OUT_PWD/landrop.svg
     icon.extra = cp "$$PWD/icons/app.svg" "$$OUT_PWD/landrop.svg"
-    icon.CONFIG = no_check_exist 
+    icon.CONFIG = no_check_exist
 
     desktop.path = $$PREFIX/share/applications
     desktop.files = $$OUT_PWD/landrop.desktop
@@ -75,9 +91,13 @@ unix {
         cp "$$PWD/../misc/LANDrop.desktop" "$$OUT_PWD/landrop.desktop" && \
         sed -i 's/Exec=LANDrop/Exec=landrop/g' "$$OUT_PWD/landrop.desktop" && \
         sed -i 's/Icon=LANDrop/Icon=landrop/g' "$$OUT_PWD/landrop.desktop"
-    desktop.CONFIG = no_check_exist 
+    desktop.CONFIG = no_check_exist
 
-    INSTALLS += binary icon desktop
+    appicon.path = $$PREFIX/share/pixmaps
+    appicon.files = $$OUT_PWD/landrop.png
+    appicon.extra = cp "$$PWD/icons/app.png" "$$OUT_PWD/landrop.png"
+
+    INSTALLS += binary icon desktop appicon
 }
 
 QMAKE_INFO_PLIST = Info.plist
