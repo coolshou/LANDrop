@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=LANDrop
+Exec=landrop
+Icon=landrop
+Type=Application
+Categories=Network;Utility;
