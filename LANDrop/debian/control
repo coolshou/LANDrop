@@ -2,7 +2,7 @@ Source: landrop
 Section: net
 Priority: optional
 Maintainer: coolshou <coolshou2060@gmail.com>
-Build-Depends: debhelper-compat (= 12), qtbase5-dev
+Build-Depends: debhelper-compat (= 12), qtbase5-dev, libsodium-dev
 Standards-Version: 4.4.1
 Homepage: https://landrop.app/#downloads
 Vcs-Browser: https://github.com/LANDrop/LANDrop.git
